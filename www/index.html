@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Web sockets</title>
+<link type="text/css" rel="stylesheet" href="http://christianprocessingnetwork.com/app/css/app_css/style.css?" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="favicon.ico" />
+<link rel="stylesheet" href="http://christianprocessingnetwork.com/app/css/app_css/colorbox.css">
+
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
+<script src="http://christianprocessingnetwork.com/app/script/jquery-1.8.2.min.js"></script>
+<script src="http://christianprocessingnetwork.com/app/script/jquery.colorbox-min.js"></script>
+<script type="text/javascript">
+//
+$( document ).ready(function() {
+  
+  $.getJSON("http://christianprocessingnetwork.com/app/app_api/main_page_api.php", {
+      page_name:'PureLogics',
+ 	 },
+
+  function(jd) {
+	$("#loader").css("display" , "none");
+	$('.phoneIcon').html(jd.name);
+	$('.letsStartBuilding').html('<img src="'+jd.cover+'" width="322px" height="220px" alt="No Image"/>');
+  });
+
+});
+</script>
+</head>
+
+<body>
+    <div id="content_wrapper">
+	  <div class="divFloatContainer">
+  	
+		<div id="RightSide_app_show"><span class="AppNamePreviewTitle firstType">testing app</span>
+		  <div class="PhoneContent">
+			<div class="clearfix" id="myPages">&nbsp;</div>
+		  </div>
+		  <div class="PhoneContentOverlay">&nbsp;</div>
+		  <div class="discoveryLoader">&nbsp;</div>
+		  
+		  <div class="phoneIcon" style="display: block;"><div id="loader">
+    <img class="page_loader" src="http://christianprocessingnetwork.com/app/app_images/ajax-loader.gif" width="40px" height="40px" />
+    </div></div>
+		  <div class="letsStartBuilding">
+		  </div>
+		  <div class="fb_photos">
+          		<a href="news.html"> <img id="LogoImg" alt="news" src="http://christianprocessingnetwork.com/app/app_images/news.png" /><br />Bulletin </a>
+				<a href="feeds.html"> <img id="LogoImg" alt="facebook" src="http://christianprocessingnetwork.com/app/app_images/facebook.png" /><br />Facebook </a> 
+				<a href="albums.html"> <img id="LogoImg" alt="photos" src="http://christianprocessingnetwork.com/app/app_images/photos.png" /><br />Photos </a> 
+                <a href="about.html"> <img id="LogoImg" alt="about" src="http://christianprocessingnetwork.com/app/app_images/About.png" /><br />About </a>
+		  </div>
+		</div>
+	  </div> 
+	</div>
+</body>
+</html>

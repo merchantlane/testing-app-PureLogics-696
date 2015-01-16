@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Web sockets</title>
+<link type="text/css" rel="stylesheet" href="http://christianprocessingnetwork.com/app/css/app_css/style.css?" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="favicon.ico" />
+<link rel="stylesheet" href="http://christianprocessingnetwork.com/app/css/app_css/colorbox.css">
+
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
+<script src="http://christianprocessingnetwork.com/app/script/jquery-1.8.2.min.js"></script>
+<script src="http://christianprocessingnetwork.com/app/script/jquery.colorbox-min.js"></script>
+<script type="text/javascript">
+function goBack() {
+    window.history.back();
+}
+
+$.getJSON("http://christianprocessingnetwork.com/app/app_api/feeds_api.php", {
+      page_name:'PureLogics',
+ 	 },
+  function(jd) {
+	$("#loader").css("display" , "none");
+	$(".bg").append(jd.content);
+  });
+
+var FuncCalls = 1;
+var FuncCalls2 = 1;
+
+function myfunc(){
+
+  $(".show_more").css("display" , "none");
+  $("#load_icon_fb").css("display" , "block");
+  
+  var page_link = $('#pagination').text();
+  
+  $.getJSON("http://christianprocessingnetwork.com/app/app_api/ajax_feeds.php", {
+     name:page_link
+  },
+
+  function(jd) {
+	  setTimeout(function() { ajax_fb_feed(jd.more_content); }, 5000);
+  });
+	
+}
+
+function ajax_fb_feed(data){
+	$("#load_icon_fb").css("display" , "none");
+	$(".fb_likes_container_load").append(data);
+}
+
+function myfunc2(){
+	
+	$(".show_more").css("display" , "none");
+	$("#load_icon_fb"+FuncCalls2).css("display" , "block");
+	
+	var page_link2 = $('#pagination'+FuncCalls).text();
+	
+	FuncCalls++;
+	FuncCalls2++;
+	
+	$.getJSON("http://christianprocessingnetwork.com/app/app_api/ajax_feeds.php", {
+      name:page_link2,
+	  count:FuncCalls,
+	  countLoad:FuncCalls2
+ 	 },
+
+  function(jd) {
+	  setTimeout(function() { ajax_fb_feed2(jd.more_content); }, 5000);
+  });
+
+}
+
+function ajax_fb_feed2(data){
+	var cnt = FuncCalls2 - 1;
+	$("#load_icon_fb"+cnt).css("display" , "none");
+	$(".fb_likes_container_load").append(data);
+}
+
+</script>
+
+<script>
+setTimeout(function() { page_like(); }, 10000);
+function page_like(){
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1489033544670150&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+}
+</script>
+</head>
+
+<body>
+
+    <div id="getting_feeds">
+    <div id="fb-root"></div>
+					<div id="content_wrapper">
+	  <div class="divFloatContainer">
+  
+		<div id="RightSide_app_show"><span class="AppNamePreviewTitle firstType" style="text-align:center; vertical-align: sub; margin: 0 0 9px 10px; left:20px;"><a href="javascript:goBack();" style="float:left; margin:0 0 5px 10px; display:inline-block;"><img alt="" src="http://christianprocessingnetwork.com/app/app_images/back_button.png" width="32" /></a>testing app</span>
+		
+			<div class="bg">
+            </div>
+            </div>
+            </div>
+            </div>
+    <div id="loader"  style="height:500px; line-height:500px; text-align:center;">
+    <img class="page_loader" src="http://christianprocessingnetwork.com/app/app_images/ajax-loader.gif" width="40px" height="40px" />
+    </div>
+    </div>
+
+</body>
+</html>

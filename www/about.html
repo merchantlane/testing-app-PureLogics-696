@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Web sockets</title>
+<link type="text/css" rel="stylesheet" href="http://christianprocessingnetwork.com/app/css/app_css/style.css?" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="favicon.ico" />
+<link rel="stylesheet" href="http://christianprocessingnetwork.com/app/css/app_css/colorbox.css">
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZAsLOmKeaIht3UR1dMEvCgMZGDcRFMpc"></script>
+<script src="http://christianprocessingnetwork.com/app/script/jquery.colorbox-min.js"></script>
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
+<script src="http://christianprocessingnetwork.com/app/script/jquery-1.8.2.min.js"></script>
+
+<script type="text/javascript">
+//
+setTimeout(function() { initialize(); }, 1000);
+
+  $.getJSON("http://christianprocessingnetwork.com/app/app_api/about_api.php", {
+      page_name:'PureLogics',
+ 	 },
+
+  function(jd) {
+	$('#lat').html(jd.Lat);
+	$('#long').html(jd.Long);
+	$('#nam').html(jd.name);
+	$('#str').html(jd.street);
+	if(jd.hr_men == 'Not Mentioned'){
+		$('#hours').html('<label>Hours:</label><br>'+jd.hr_men+'<br>');
+	}else{
+		$('#hours').html('<label>Hours:</label><br>'+jd.mon+jd.tue+jd.wed+jd.thu+jd.fri+jd.sat+jd.sun+jd.hr_men+'<br>');
+	}
+	$('#phone').html('<label>Phone : </label><p>'+jd.phone+'</p>');
+	$('#website').html('<label>Website : </label><p>'+jd.website+'</p>');
+  });
+
+function goBack() {
+    window.history.back();
+}
+
+</script>
+</head>
+
+<body>
+
+<div id="content_wrapper">
+      <div class="divFloatContainer">
+  
+        <div id="RightSide_app_show"><span class="AppNamePreviewTitle firstType" style="text-align:center; vertical-align: sub; margin: 0 0 9px 10px; left:20px;"><a href="javascript:goBack();" style="float:left; margin:0 0 5px 10px; display:inline-block;"><img alt="" src="http://christianprocessingnetwork.com/app/app_images/back_button.png" width="32" /></a>testing app</span>
+          	<div class="bg">
+            <div id="lat" style="display:none"></div>
+            <div id="long" style="display:none"></div>
+            <div id="nam" style="display:none"></div>
+            <div id="str" style="display:none"></div>
+            <div class="map" id="map-canvas" style="width: 100%; height: 250px"></div>
+            
+            <div class="adress_map">
+                	<ul>
+                    	<li id="phone"></li>
+                        <li id="website"></li>
+                        <li id="hours"></li>
+
+                    </ul>
+                    
+                    
+            </div>
+
+            </div>
+        </div>
+      </div>
+    </div>
+
+<script type="text/javascript">
+
+function initialize() {
+	var latitude = $('#lat').text();
+	var longitude = $('#long').text();
+	console.log(latitude);
+	console.log(longitude);
+	//alert('lat : '+latitude);
+	//alert('long : '+longitude);
+	var name = $('#nam').text();
+	if(latitude=="" || longitude==""){
+		address();
+		return;
+	}
+	var myLatlng = new google.maps.LatLng(latitude,longitude);
+	
+	var mapOptions = {
+	zoom: 12,
+	center: myLatlng,
+	mapTypeId : google.maps.MapTypeId.ROADMAP
+	}
+	
+var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+var marker = new google.maps.Marker({
+	position: myLatlng,
+	map: map,
+	title: name,
+	animation: google.maps.Animation.DROP,
+});
+
+var contentString = '<div id="map-content" style="color:black; width:100%;"><b>'+name+'</b></div>';
+
+var infowindow = new google.maps.InfoWindow({
+	content:contentString,
+});
+
+infowindow.open(map,marker);
+marker.setMap(map);
+//$('#map-content').parent().parent().siblings().addClass("class_name");
+}
+
+//google.maps.event.addDomListener(window, 'load', initialize);
+			
+			
+function address() {
+
+	var adrs = $('#str').text();
+	var name = $('#nam').text();
+	console.log(adrs);
+	console.log(name);
+	//alert('adrs : '+adrs);
+	//alert('name : '+name);
+	geocoder = new google.maps.Geocoder();
+	var myOptions = {
+		zoom : 12,
+		mapTypeId : google.maps.MapTypeId.ROADMAP
+	};
+	map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+
+	geocoder.geocode({
+		address : adrs
+	}, function(results, status) {
+		console.log(results);
+	if(status == google.maps.GeocoderStatus.OK) {
+		map.setCenter(results[0].geometry.location);
+		var marker = new google.maps.Marker({
+			map : map,
+			animation: google.maps.Animation.DROP,
+			position : results[0].geometry.location
+	});
+		var contentString = '<div id="map-content" style="color:black; width:100%;"><b>'+name+'</b></div>';
+			
+			var infowindow = new google.maps.InfoWindow({
+				content:contentString,
+			});
+			
+			infowindow.open(map,marker);
+			marker.setMap(map);
+} else {
+	alert("Geocode was not successful for the following reason: " + status);
+}
+
+});
+			
+}
+</script>
+    
+    
+</body>
+</html>

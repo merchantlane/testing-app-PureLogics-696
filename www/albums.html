@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Web sockets</title>
+<link type="text/css" rel="stylesheet" href="http://christianprocessingnetwork.com/app/css/app_css/style.css?" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="icon" href="favicon.ico" />
+<link rel="stylesheet" href="http://christianprocessingnetwork.com/app/css/app_css/colorbox.css">
+
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
+<script src="http://christianprocessingnetwork.com/app/script/jquery-1.8.2.min.js"></script>
+<script src="http://christianprocessingnetwork.com/app/script/jquery.colorbox-min.js"></script>
+<script type="text/javascript">
+function goBack() {
+    window.history.back();
+}
+//http://christianprocessingnetwork.com/app/app_api/albums_api.php
+$.getJSON("http://christianprocessingnetwork.com/app/app_api/albums_api.php", {
+      page_name:'PureLogics',
+ 	 },
+
+  function(jd) {
+    $("#loader").css("display" , "none");
+	$(".bg").html(jd.content);
+  });
+
+
+
+var FuncCalls1 = 1;
+var FuncCalls3 = 1;
+
+function myfunc3(){
+	var page_link11 = $('#pagination_alb').text();
+	
+	$(".show_more").css("display" , "none");
+	
+	$("#load_icon_al").css("display" , "block");
+	
+	$.getJSON("http://christianprocessingnetwork.com/app/app_api/ajax_albums.php", {
+      name2:page_link11
+ 	 },
+
+  function(jd) {
+	  setTimeout(function() { ajax_loader3(jd.more_content); }, 5000);
+  });
+}
+
+function ajax_loader3(data){
+	$("#load_icon_al").css("display" , "none");
+	$("#photos_container2").append(data);
+}
+
+function myfunc4(){
+	var page_link21 = $('#pagination_alb'+FuncCalls1).text();
+	
+	$(".show_more").css("display" , "none");
+	$("#load_icon_al"+FuncCalls3).css("display" , "block");
+	
+	FuncCalls1++;
+	FuncCalls3++;
+	
+	$.getJSON("http://christianprocessingnetwork.com/app/app_api/ajax_albums.php", {
+      name2:page_link21,
+	  count2:FuncCalls1,
+	  countNext:FuncCalls3
+ 	 },
+
+  function(jd) {
+	  setTimeout(function() { ajax_loader4(jd.more_content); }, 5000);
+  });
+
+}
+
+function ajax_loader4(data){
+	var x = FuncCalls3 - 1;
+	$("#load_icon_al"+x).css("display" , "none");
+	$("#photos_container2").append(data);
+}
+
+</script>
+
+<script type="text/javascript">
+
+
+function images(id,count,name){
+	$.getJSON("http://christianprocessingnetwork.com/app/app_api/album_view_api.php", {
+      album_id:id,
+	  p_count:count,
+	  album_name:name
+ 	 },
+	 
+  function(jd) {
+	  $(".bg").html(jd.content);
+  });
+  
+}
+
+var FuncCalls11 = 1;
+var FuncCalls31 = 1;
+
+function myfunc99(){
+	var page_link_pics = $('#pagination_alb_pics').text();
+	
+	$(".show_more").css("display" , "none");
+	
+	$("#load_icon_pic").css("display" , "block");
+	
+	$.getJSON("http://christianprocessingnetwork.com/app/app_api/ajax_album_view.php", {
+      namess:page_link_pics
+ 	 },
+
+  function(jd) {
+	  setTimeout(function() { ajax_loader30(jd.more_content); }, 5000);
+  });
+
+}
+
+function ajax_loader30(data){
+	$("#load_icon_pic").css("display" , "none");
+	$(".album").append(data);
+}
+
+function myfunc98(){
+	var page_link212 = $('#pagination_alb_pics'+FuncCalls11).text();
+	
+	$(".show_more").css("display" , "none");
+	$("#load_icon_pic"+FuncCalls31).css("display" , "block");
+	
+	FuncCalls11++;
+	FuncCalls31++;
+	
+	$.getJSON("http://christianprocessingnetwork.com/app/app_api/ajax_album_view.php", {
+      namess:page_link212,
+	  countss:FuncCalls11,
+	  countNextss:FuncCalls31
+ 	 },
+
+  function(jd) {
+	  setTimeout(function() { ajax_loader40(jd.more_content); }, 5000);
+  });
+	
+}
+
+function ajax_loader40(data){
+	var x = FuncCalls31 - 1;
+	$("#load_icon_pic"+x).css("display" , "none");
+	$(".album").append(data);
+}
+
+function gall(){
+	$(".gallery").colorbox({
+		rel:'gallery',
+		scalePhotos:'true',
+		maxWidth:"363px",
+		maxHeight:"421px",
+		height:"421px",
+		width:"363px",
+		
+	}); 
+}
+
+</script>
+
+</head>
+
+<body>
+
+    <div id="getting_albums">
+    <div id="content_wrapper">
+	  <div class="divFloatContainer">
+  		
+        <div id="RightSide_app_show">
+		<span class="AppNamePreviewTitle firstType" style="text-align:center; vertical-align: sub; margin: 0 0 9px 10px; left:20px;"><a href="javascript:goBack();" style="float:left; margin:0 0 5px 10px; display:inline-block;"><img alt="" src="http://christianprocessingnetwork.com/app/app_images/back_button.png" width="32" /></a>testing app</span>
+			<div class="bg">
+            </div>
+            </div>
+            </div>
+            </div>
+    <div id="loader"  style="height:500px; line-height:500px; text-align:center;">
+    <img class="page_loader" src="http://christianprocessingnetwork.com/app/app_images/ajax-loader.gif" width="40px" height="40px" />
+    </div>
+    </div>
+
+
+</body>
+</html>
